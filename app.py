@@ -58,15 +58,20 @@ if choice == "Add Student":
         add_student(name, age, course, marks)
         st.success("Student Added!")
 
-#View Students
+# 👀 View Students
 elif choice == "View Students":
     st.subheader("All Students")
 
     data = get_students()
     df = pd.DataFrame(data, columns=["ID", "Name", "Age", "Course", "Marks"])
+
+    
+    df["Marks"] = pd.to_numeric(df["Marks"], errors="coerce")
+    df = df.dropna()
+
     st.dataframe(df)
 
-# Search
+# 🔍 Search
 elif choice == "Search":
     st.subheader("Search Student")
 
@@ -75,9 +80,14 @@ elif choice == "Search":
     if st.button("Search"):
         data = search_students(search_name)
         df = pd.DataFrame(data, columns=["ID", "Name", "Age", "Course", "Marks"])
+
+        
+        df["Marks"] = pd.to_numeric(df["Marks"], errors="coerce")
+        df = df.dropna()
+
         st.dataframe(df)
 
-# Update
+# ✏️ Update
 elif choice == "Update":
     st.subheader("Update Student")
 
@@ -91,7 +101,7 @@ elif choice == "Update":
         update_student(student_id, name, age, course, marks)
         st.success("Student Updated!")
 
-# Delete
+# ❌ Delete
 elif choice == "Delete":
     st.subheader("Delete Student")
 
@@ -101,12 +111,15 @@ elif choice == "Delete":
         delete_student(student_id)
         st.success("Student Deleted!")
 
-#  Analytics
+# 📊 Analytics
 elif choice == "Analytics":
     st.subheader("Analytics")
 
     data = get_students()
     df = pd.DataFrame(data, columns=["ID", "Name", "Age", "Course", "Marks"])
+
+    df["Marks"] = pd.to_numeric(df["Marks"], errors="coerce")
+    df = df.dropna()
 
     st.write("📈 Marks Distribution")
     st.bar_chart(df["Marks"])
